@@ -4,4 +4,13 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    div(class="page")
+      div(class="side-bar")
+        a(href='/catalog/categories') Categories
+        a(href='/catalog/brands') Brands 
+        a(href="/catalog/cars") Cars
+        a(href="/catalog/create-category") Create category
+        a(href='/catalog/create-brand') Create brand
+        a(href='/catalog/create-car') Create Car
+      div(class='main-content')
+        block content

@@ -14,3 +14,5 @@ const CarSchema = new Schema({
 CarSchema.virtual("url").get(function () {
   return `/catalog/car/${this._id}`;
 });
+
+module.exports = mongoose.model("Car", CarSchema);
