@@ -8,6 +8,7 @@ const CarSchema = new Schema({
   price: { type: Number, required: true },
   number_in_strock: { type: Number, required: false },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+  brand: { type: Schema.Types.ObjectId, ref: "Brand", required: true },
 });
 
 CarSchema.virtual("url").get(function () {
