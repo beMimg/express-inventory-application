@@ -157,3 +157,78 @@ exports.car_delete_post = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.car_update_get = async (req, res, next) => {
+  try {
+    const [car, allCategories, allBrands] = await Promise.all([
+      await Car.findById(req.params.id).exec(),
+      await Category.find({}, "name").sort({ name: 1 }).exec(),
+      await Brand.find({}, "name").sort({ name: 1 }).exec(),
+    ]);
+
+    res.render("car-form", {
+      title: "Update Car",
+      car: car,
+      all_categories: allCategories,
+      all_brands: allBrands,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.car_update_post = [
+  body("car_name").trim().isLength({ min: 1 }).escape(),
+  body("car_description").trim().isLength({ min: 1 }).escape(),
+  body("car_price").trim().isNumeric().isLength({ min: 1 }).escape(),
+  body("car_number_in_stock").trim().isNumeric().isLength({ min: 1 }).escape(),
+  body("car_category").trim().isLength({ min: 1 }).escape(),
+  body("car_brand").trim().isLength({ min: 1 }).escape(),
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      const car = new Car({
+        name: req.body.car_name,
+        description: req.body.car_description,
+        price: req.body.car_price,
+        number_in_stock: req.body.car_number_in_stock,
+        category: req.body.car_category,
+        brand: req.body.car_brand,
+        _id: req.params.id,
+      });
+
+      const [allCategories, allBrands] = await Promise.all([
+        await Category.find({}, "name").sort({ name: 1 }).exec(),
+        await Brand.find({}, "name").sort({ name: 1 }).exec(),
+      ]);
+
+      if (!errors.isEmpty()) {
+        res.render("car-form", {
+          title: "Create a car",
+          car: car,
+          all_categories: allCategories,
+          all_brands: allBrands,
+        });
+        return;
+      }
+
+      const existsCar = await Car.findOne({
+        name: req.body.car_name,
+        category: req.body.car_category,
+        brand: req.body.car_brand,
+      }).exec();
+
+      if (existsCar) {
+        res.redirect(existsCar.url);
+        return;
+      } else {
+        await Car.findByIdAndUpdate(req.params.id, car, {});
+        res.redirect(car.url);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  },
+];
