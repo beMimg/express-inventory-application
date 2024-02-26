@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+
+  h1=title 
+  h2=brand_detail.name
+
+  p Cars:
+    if cars_in_brand.length
+      ul 
+        each car in cars_in_brand
+          a(href=car.url) #{car.name}
+    else 
+      p No cars in this brand.
