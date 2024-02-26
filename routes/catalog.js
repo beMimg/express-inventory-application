@@ -1,27 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const Brand = require("../models/brand");
-const Car = require("../models/car");
-const Category = require("../models/category");
 const mongoose = require("mongoose");
+const car_controller = require("../controllers/carController");
 
-router.get("/", async (req, res, next) => {
-  try {
-    const [allBrands, allCars, allCategories] = await Promise.all([
-      Brand.countDocuments().exec(),
-      Car.countDocuments().exec(),
-      Category.countDocuments().exec(),
-    ]);
+router.get("/", car_controller.countAllDocuments);
 
-    res.render("catalog-homepage", {
-      title: "Welcome to the cars catalog page",
-      all_brands: allBrands,
-      all_cars: allCars,
-      all_categories: allCategories,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+// CATEGORY //
+
+router.get("/catalog/categories");
+
+// BRANDS //
+
+// CARS //
 
 module.exports = router;
