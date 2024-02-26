@@ -1,0 +1,47 @@
+extends layout 
+
+block content 
+  h1=title
+  form(method="post") 
+    div(class="form")
+      div(class="form-row")
+        label(for="car_name") Car Model: 
+        input(type="text" name="car_name" required value=(car===undefined ? "" : car.name))
+      div
+        label(for="car_description") Description: 
+        input(type="text" name="car_description" required value=(car===undefined ? "" : car.description)) 
+      div 
+        label(for="car_price") Price:
+        input(type="number" name="car_price" required value=(car===undefined ? "" : car.price))
+      div 
+        label(for='car_number_in_stock') Number of Stock: 
+        input(type="number" name="car_number_in_stock" required value=(car===undefined ? "" : car.number_in_stock))
+      div 
+        label(for="car_category") Category: 
+        select(name="car_category" required)
+          option(value="") Please select a category 
+          each category in all_categories
+            if car 
+              if car.category._id.toString()=== category._id.toString()
+                option(value=category._id selected) #{category.name} 
+              else 
+                option(value=category._id) #{category.name}
+            else 
+              option(value=category._id) #{category.name}
+      div 
+        label(for="car_brand") Brand: 
+        select(name="car_brand" required)
+          option(value="") Please select a brand 
+          each brand in all_brands 
+            if car 
+              if car.brand._id.toString()===brand._id.toString()
+                option(value=brand._id selected) #{brand.name} 
+              else 
+                option(value=brand._id) #{brand.name} 
+            else  
+              option(value=brand._id) #{brand.name}
+    button(type="submit") Create
+
+  if errors 
+    each error in errors 
+      li!= error

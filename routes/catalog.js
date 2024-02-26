@@ -24,6 +24,8 @@ router.get("/brand/:id", brand_controller.brand_detail);
 // CARS //
 
 router.get("/cars", car_controller.car_list);
+router.get("/car/create", car_controller.car_create_get);
+router.post("/car/create", car_controller.car_create_post);
 router.get("/car/:id", car_controller.car_detail);
 
 module.exports = router;

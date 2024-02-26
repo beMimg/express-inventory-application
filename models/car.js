@@ -6,7 +6,7 @@ const CarSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
-  number_in_strock: { type: Number, required: false },
+  number_in_stock: { type: Number, required: false },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   brand: { type: Schema.Types.ObjectId, ref: "Brand", required: true },
 });
