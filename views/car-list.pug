@@ -1,0 +1,12 @@
+extends layout 
+
+block content
+  h1=title 
+
+  if all_cars.length >0
+    ul(class='list')
+      each car in all_cars 
+        h2= car.brand.name
+        a(href=car.url) #{car.name}
+  else 
+    p This list of cars is empty.

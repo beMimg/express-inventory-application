@@ -28,6 +28,8 @@ exports.brand_detail = async (req, res, next) => {
       cars_in_brand: carsInBrand,
     });
   } catch (err) {
-    console.log(err);
+    const error = new Error("Couldn't find this brand");
+    error.status = 404;
+    return next(error);
   }
 };

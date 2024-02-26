@@ -31,6 +31,8 @@ exports.category_detail = async (req, res, next) => {
       cars_in_category: carsInCategory,
     });
   } catch (err) {
-    console.log(err);
+    const error = new Error("Could find this category");
+    error.status = 404;
+    return next(error);
   }
 };

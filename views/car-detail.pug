@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+  
+  h1=title
+
+  div
+    h2 Information: 
+    h3 Model: #{car.name}
+    h4 Description: #{car.description}
+    p Price: #{car.price}
+    p Category: 
+      a(href= car.category.url) #{car.category.name}
+    p Brand: 
+      a(href= car.brand.url) #{car.brand.name}
+
+
