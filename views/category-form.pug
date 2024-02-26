@@ -5,9 +5,9 @@ block content
   h1=title
   form(method="POST")
     label(for="category-name") Category Name: 
-    input(type="text"  placeholder='SUV, Hatchback...' name='category_name' required)
+    input(type="text"  placeholder='SUV, Hatchback...' name='category_name' required value=(category===undefined ? "" : category.name))
     label(for="category-description") Description: 
-    input(type="text" maxLength=100 placeholder='Small, confort' name='category_description' required)
+    input(type="text" maxLength=100 placeholder='Small, confort' name='category_description' required value=(category===undefined ? "" : category.description))
     button(type="submit") Create
 
   if errors 

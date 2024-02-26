@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Brand = require("../models/brand");
 const Car = require("../models/car");
+const { body, validationResult } = require("express-validator");
 
 exports.brand_list = async (req, res, next) => {
   try {
@@ -33,3 +34,43 @@ exports.brand_detail = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.brand_create_get = (req, res, next) => {
+  res.render("brand-form", {
+    title: "Create a brand",
+  });
+};
+
+exports.brand_create_post = [
+  body("brand_name").trim().isLength({ min: 1 }).escape(),
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      const brand = new Brand({ name: req.body.brand_name });
+
+      if (!errors.isEmpty()) {
+        res.render("brand-form", {
+          title: "Create a brand",
+          brand: brand,
+        });
+        return;
+      }
+
+      const existsBrand = await Brand.findOne({ name: req.body.brand_name });
+
+      if (existsBrand) {
+        res.redirect(existsBrand.url);
+        return;
+      } else {
+        await brand.save();
+        res.redirect(brand.url);
+      }
+    } catch (err) {
+      const error = new Error("Couldn't create the brand");
+      error.status = 500;
+      return next(error);
+    }
+  },
+];
