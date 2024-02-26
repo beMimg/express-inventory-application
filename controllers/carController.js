@@ -3,6 +3,7 @@ const Brand = require("../models/brand");
 const Car = require("../models/car");
 const Category = require("../models/category");
 const { body, validationResult } = require("express-validator");
+require("dotenv").config();
 
 exports.countAllDocuments = async (req, res, next) => {
   try {
@@ -149,8 +150,13 @@ exports.car_delete_get = async (req, res, next) => {
 
 exports.car_delete_post = async (req, res, next) => {
   try {
-    await Car.findByIdAndDelete(req.body.car_id);
-    res.redirect("/catalog/cars");
+    if (req.body.admin_password === process.env.ADMIN_PW) {
+      await Car.findByIdAndDelete(req.body.car_id);
+      res.redirect("/catalog/cars");
+      return;
+    } else {
+      res.send("Admin password failed.");
+    }
   } catch (err) {
     const error = new Error("Could not delete this car");
     error.status(500);

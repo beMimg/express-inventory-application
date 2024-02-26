@@ -3,7 +3,7 @@ extends layout
 block content 
 
   h1=title
-
+  h2= category.name
   if cars_in_category.length>0
     p To be able to delete this category, first you need to delete all cars that depend on this category.
     p Check bellow the list of cars in this category: 
@@ -13,5 +13,6 @@ block content
   else
     form(method="post") 
       input(type='hidden' name='category_id' value=category._id) 
-      p Are you sure you want to delete "#{category.name}" category?
+      label(for="admin_password" name="admin_password") Admin Password: 
+      input(type="text" name='admin_password') 
       button(type="submit") Delete

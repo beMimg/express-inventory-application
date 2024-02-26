@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Category = require("../models/category");
 const Car = require("../models/car");
 const { body, validationResult } = require("express-validator");
+require("dotenv").config();
 
 exports.category_list = async (req, res, next) => {
   try {
@@ -102,8 +103,13 @@ exports.category_delete_get = async (req, res, next) => {
 
 exports.category_delete_post = async (req, res, next) => {
   try {
-    await Category.findByIdAndDelete(req.body.category_id);
-    res.redirect("/catalog/categories");
+    if (req.body.admin_password === process.env.ADMIN_PW) {
+      await Category.findByIdAndDelete(req.body.category_id);
+      res.redirect("/catalog/categories");
+      return;
+    } else {
+      res.send("Admin paswword incorrect");
+    }
   } catch (err) {
     return next(err);
   }

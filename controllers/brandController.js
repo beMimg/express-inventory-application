@@ -94,8 +94,13 @@ exports.brand_delete_get = async (req, res, next) => {
 
 exports.brand_delete_post = async (req, res, next) => {
   try {
-    await Brand.findByIdAndDelete(req.body.brand_id);
-    res.redirect("/catalog/brands");
+    if (req.body.admin_password === process.env.ADMIN_PW) {
+      await Brand.findByIdAndDelete(req.body.brand_id);
+      res.redirect("/catalog/brands");
+      return;
+    } else {
+      res.send("Admin password incorrect");
+    }
   } catch (err) {
     return next(err);
   }

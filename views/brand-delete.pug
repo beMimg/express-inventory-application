@@ -13,4 +13,6 @@ block content
   else 
     form(method="post")
       input(type="hidden" name='brand_id', value=brand._id)
+      label(for="admin_password" name="admin_password") Admin Password: 
+      input(type="text" name='admin_password') 
       button(type="submit") Delete
