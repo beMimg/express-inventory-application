@@ -1,0 +1,16 @@
+extends layout 
+
+block content
+  h1=title
+
+  p Are you sure you want the delete "#{brand.name}" brand?
+
+  if cars_in_brand.length > 0 
+    p In order to delete this brand, you must delete all the cars with this brand first.
+    p Here is a list of all #{brand.name} cars: 
+    each car in cars_in_brand 
+      a(href=car.url) #{car.name}
+  else 
+    form(method="post")
+      input(type="hidden" name='brand_id', value=brand._id)
+      button(type="submit") Delete

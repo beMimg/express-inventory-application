@@ -74,3 +74,29 @@ exports.brand_create_post = [
     }
   },
 ];
+
+exports.brand_delete_get = async (req, res, next) => {
+  try {
+    const [brand, carsInBrand] = await Promise.all([
+      await Brand.findById(req.params.id).exec(),
+      await Car.find({ brand: req.params.id }, "name").exec(),
+    ]);
+
+    res.render("brand-delete", {
+      title: "Delete Brand",
+      brand: brand,
+      cars_in_brand: carsInBrand,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.brand_delete_post = async (req, res, next) => {
+  try {
+    await Brand.findByIdAndDelete(req.body.brand_id);
+    res.redirect("/catalog/brands");
+  } catch (err) {
+    return next(err);
+  }
+};

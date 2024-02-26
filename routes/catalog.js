@@ -22,7 +22,8 @@ router.get("/brands", brand_controller.brand_list);
 router.get("/brand/create", brand_controller.brand_create_get);
 router.post("/brand/create", brand_controller.brand_create_post);
 router.get("/brand/:id", brand_controller.brand_detail);
-
+router.get("/brand/:id/delete", brand_controller.brand_delete_get);
+router.post("/brand/:id/delete", brand_controller.brand_delete_post);
 // CARS //
 
 router.get("/cars", car_controller.car_list);
