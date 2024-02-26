@@ -30,3 +30,9 @@ a {
   flex-direction: column;
   padding: 8px;
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

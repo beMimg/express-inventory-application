@@ -1,0 +1,12 @@
+extends layout 
+
+block content 
+
+  h1=title 
+  p=category_detail.name
+  p=category_detail.description
+
+  if cars_in_category.length > 0 
+    each car in cars_in_category 
+      a(href=car.url) #{car.name} || 
+      span #{car.brand.name}

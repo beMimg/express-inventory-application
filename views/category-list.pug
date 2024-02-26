@@ -1,0 +1,8 @@
+extends layout 
+
+block content
+
+  h1=title 
+  ul(class='list')
+    each category in category_list 
+      a(href=category.url) #{category.name}
