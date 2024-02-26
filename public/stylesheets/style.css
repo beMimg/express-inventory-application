@@ -3,6 +3,7 @@ body {
   height: 100vh;
   width: 100vw;
   margin: 0;
+  padding: 0;
 }
 
 h1,
@@ -23,18 +24,27 @@ a {
 .page {
   display: grid;
   grid-template-columns: 15% auto;
+  height: 100%;
 }
 
 .side-bar {
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  gap: 20px;
+  background-color: #000d29;
+}
+.side-bar a {
+  color: white;
+  padding: 15px;
 }
 
 .list {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .form {
@@ -48,4 +58,13 @@ a {
   display: flex;
   flex-direction: row;
   gap: 5px;
+}
+.main-content {
+  padding: 15px;
+}
+
+.flex-col-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
