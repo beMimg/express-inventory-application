@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+  h1=title
+  h2=car.name
+  p Are you sure you want to delete this car?
+
+  form(method="post") 
+    input(type="hidden" name='car_id' value=car._id)
+    button(type="submit") Delete this car

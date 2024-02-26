@@ -135,3 +135,27 @@ exports.car_create_post = [
     }
   },
 ];
+
+exports.car_delete_get = async (req, res, next) => {
+  try {
+    const car = await Car.findById(req.params.id);
+
+    res.render("car-delete", {
+      title: "Delete car",
+      car: car,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.car_delete_post = async (req, res, next) => {
+  try {
+    await Car.findByIdAndDelete(req.body.car_id);
+    res.redirect("/catalog/cars");
+  } catch (err) {
+    const error = new Error("Could not delete this car");
+    error.status(500);
+    return next(error);
+  }
+};
