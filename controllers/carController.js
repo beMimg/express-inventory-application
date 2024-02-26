@@ -19,7 +19,7 @@ exports.countAllDocuments = async (req, res, next) => {
       all_categories: allCategories,
     });
   } catch (err) {
-    console.log(err);
+    return next(err);
   }
 };
 
@@ -30,7 +30,6 @@ exports.car_list = async (req, res, next) => {
       .sort({ "brand.name": 1 })
       .exec();
 
-    console.log(allCars);
     res.render("car-list", {
       title: "Cars list",
       all_cars: allCars,
@@ -47,7 +46,6 @@ exports.car_detail = async (req, res, next) => {
       .populate("brand")
       .exec();
 
-    console.log(car);
     res.render("car-detail", {
       title: "Car detail",
       car: car,

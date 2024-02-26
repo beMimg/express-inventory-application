@@ -25,7 +25,6 @@ exports.category_detail = async (req, res, next) => {
         .exec(),
     ]);
 
-    console.log(carsInCategory);
     res.render("category-detail", {
       title: "Category Detail",
       category_detail: categoryDetail,
@@ -109,3 +108,56 @@ exports.category_delete_post = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.category_update_get = async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.id).exec();
+
+    res.render("category-form", {
+      title: "Update category",
+      category: category,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.category_update_post = [
+  body("category_name").trim().isLength({ min: 1 }).escape(),
+  body("category_description").trim().isLength({ max: 80 }).escape(),
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      const category = new Category({
+        name: req.body.category_name,
+        description: req.body.category_description,
+        _id: req.params.id,
+      });
+
+      if (!errors.isEmpty()) {
+        res.render("category-form", {
+          title: "Update Category",
+          category: category,
+          errors: errors.array(),
+        });
+        return;
+      }
+
+      const existsCategory = await Category.findOne({
+        name: req.body.category_name,
+      }).exec();
+
+      if (existsCategory) {
+        res.redirect(existsCategory.url);
+        return;
+      } else {
+        await Category.findByIdAndUpdate(req.params.id, category, {});
+        res.redirect(category.url);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  },
+];

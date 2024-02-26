@@ -15,6 +15,8 @@ router.post("/category/create", category_controller.category_create_post);
 router.get("/category/:id", category_controller.category_detail);
 router.get("/category/:id/delete", category_controller.category_delete_get);
 router.post("/category/:id/delete", category_controller.category_delete_post);
+router.get("/category/:id/update", category_controller.category_update_get);
+router.post("/category/:id/update", category_controller.category_update_post);
 
 // BRANDS //
 
@@ -24,6 +26,7 @@ router.post("/brand/create", brand_controller.brand_create_post);
 router.get("/brand/:id", brand_controller.brand_detail);
 router.get("/brand/:id/delete", brand_controller.brand_delete_get);
 router.post("/brand/:id/delete", brand_controller.brand_delete_post);
+
 // CARS //
 
 router.get("/cars", car_controller.car_list);
