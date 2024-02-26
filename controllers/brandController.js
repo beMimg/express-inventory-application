@@ -100,3 +100,54 @@ exports.brand_delete_post = async (req, res, next) => {
     return next(err);
   }
 };
+
+exports.brand_update_get = async (req, res, next) => {
+  try {
+    const brand = await Brand.findById(req.params.id);
+
+    res.render("brand-form", {
+      title: "Update Brand",
+      brand: brand,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.brand_update_post = [
+  body("brand_name").trim().isLength({ min: 1 }).escape(),
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      const brand = new Brand({
+        name: req.body.brand_name,
+        _id: req.params.id,
+      });
+
+      if (!errors.isEmpty()) {
+        res.render("brand-form", {
+          title: "Update Form",
+          brand: brand,
+          errors: errors.array(),
+        });
+        return;
+      }
+
+      const existsBrand = await Brand.findOne({
+        name: req.body.brand_name,
+      }).exec();
+
+      if (existsBrand) {
+        res.redirect(existsBrand.url);
+        return;
+      } else {
+        await Brand.findByIdAndUpdate(req.params.id, brand, {});
+        res.redirect(brand.url);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  },
+];
