@@ -10,3 +10,9 @@ block content
     each car in cars_in_category 
       a(href=car.url) #{car.name} || 
       span #{car.brand.name}
+  else 
+    p This category has no cars.   
+
+  hr
+  p
+    a(href=`${category_detail.url}/delete`) Delete category

@@ -83,3 +83,29 @@ exports.category_create_post = [
     }
   },
 ];
+
+exports.category_delete_get = async (req, res, next) => {
+  try {
+    const [category, carsInCategory] = await Promise.all([
+      await Category.findById(req.params.id).exec(),
+      await Car.find({ category: req.params.id }, "name").exec(),
+    ]);
+
+    res.render("category-delete", {
+      title: "Delete category",
+      category: category,
+      cars_in_category: carsInCategory,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.category_delete_post = async (req, res, next) => {
+  try {
+    await Category.findByIdAndDelete(req.body.category_id);
+    res.redirect("/catalog/categories");
+  } catch (err) {
+    return next(err);
+  }
+};

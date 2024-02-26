@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+
+  h1=title
+
+  if cars_in_category.length>0
+    p To be able to delete this category, first you need to delete all cars that depend on this category.
+    p Check bellow the list of cars in this category: 
+    div(class="list")
+      each car in cars_in_category 
+        a(href=car.url) #{car.name}
+  else
+    form(method="post") 
+      input(type='hidden' name='category_id' value=category._id) 
+      p Are you sure you want to delete "#{category.name}" category?
+      button(type="submit") Delete
