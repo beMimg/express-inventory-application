@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+
+  h1=title
+  form(method="POST")
+    label(for="category-name") Category Name: 
+    input(type="text"  placeholder='SUV, Hatchback...' name='category_name' required)
+    label(for="category-description") Description: 
+    input(type="text" maxLength=100 placeholder='Small, confort' name='category_description' required)
+    button(type="submit") Create
+
+  if errors 
+    ul 
+      for error in errors
+        li!= error.msg

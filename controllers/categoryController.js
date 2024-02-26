@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Category = require("../models/category");
 const Car = require("../models/car");
+const { body, validationResult } = require("express-validator");
 
 exports.category_list = async (req, res, next) => {
   try {
@@ -36,3 +37,49 @@ exports.category_detail = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.category_create_get = (req, res, next) => {
+  res.render("category-form", {
+    title: "Create a category",
+  });
+};
+
+exports.category_create_post = [
+  body("category_name").trim().isLength({ min: 1 }).escape(),
+  body("category_description").trim().isLength({ max: 80 }).escape(),
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      const category = new Category({
+        name: req.body.category_name,
+        description: req.body.category_description,
+      });
+
+      if (!errors.isEmpty()) {
+        res.render("category-form", {
+          title: "Create a category",
+          category: category,
+          errors: errors.array(),
+        });
+        return;
+      }
+      const existsCategory = await Category.findOne({
+        name: req.body.category_name,
+      });
+
+      if (existsCategory) {
+        res.redirect(existsCategory.url);
+        return;
+      } else {
+        await category.save();
+        res.redirect(category.url);
+      }
+    } catch (err) {
+      const error = new Error("Coudn't create this category.");
+      err.status(500);
+      return next(error);
+    }
+  },
+];
