@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const compression = require("compression");
 const helmet = require("helmet");
-const RateLimit = require("express-rate-limit");
 
 // Routes
 const catalogRouter = require("./routes/catalog");
@@ -30,10 +29,11 @@ main();
 app.use(helmet());
 app.use(compression());
 
+const RateLimit = require("express-rate-limit");
+
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 20,
-  validate: { xForwardedForHeader: false },
 });
 app.use(limiter);
 
