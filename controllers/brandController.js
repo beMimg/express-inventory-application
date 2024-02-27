@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Brand = require("../models/brand");
 const Car = require("../models/car");
 const { body, validationResult } = require("express-validator");
+require("dotenv").config();
 
 exports.brand_list = async (req, res, next) => {
   try {
